@@ -1,9 +1,11 @@
 package com.example.a12_shitov_pr22102;
-import android.app.Activity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.app.Activity;
 import android.widget.TextView;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -15,29 +17,34 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Table  extends AppCompatActivity implements View.OnClickListener{
     Button btn;
     private TextView digitalClock;
+
+    @SuppressLint("MissingInflatedId")
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.button);
-        btn.setOnClickListener(this); // Теперь MainActivity обрабатывает нажатие кнопки
+        setContentView(R.layout.activity_table);
+        btn = findViewById(R.id.btnBorsch);
+        btn.setOnClickListener(this);
+        Button backButton = findViewById(R.id.back_button);
 
         digitalClock = findViewById(R.id.digital_clock);
         updateDigitalClock();
-    }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.button) {
-            startActivity(new Intent(this, Table.class));
-        }
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Table.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
-
     private void updateDigitalClock() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -53,4 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }, 1000);
     }
 
+    @Override
+    public void onClick(View v) {
+        startActivity(new Intent(this, ShowItem.class));
+    }
 }
